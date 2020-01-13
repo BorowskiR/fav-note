@@ -17,10 +17,10 @@ const YellowBackground = styled.div`
   background: ${({ theme }) => theme.note};
 `;
 
-storiesOf('ButtonIcon', module)
+storiesOf('Atoms/ButtonIcon', module)
   .addDecorator(story => <YellowBackground>{story()}</YellowBackground>)
   .add('Bulb', () => <ButtonIcon icon={bulbIcon} />)
-  .add('Active', () => <ButtonIcon active icon={bulbIcon} />)
+  .add('Active', () => <ButtonIcon icon={bulbIcon} />)
   .add('Logout', () => <ButtonIcon icon={logoutIcon} />)
   .add('Pen', () => <ButtonIcon icon={penIcon} />)
   .add('Plus', () => <ButtonIcon icon={plusIcon} />)
