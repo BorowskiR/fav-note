@@ -6,6 +6,8 @@ import Paragraph from 'components/atoms/Paragraph/Paragraph';
 import Heading from 'components/atoms/Heading/Heading';
 import Button from 'components/atoms/Button/Button';
 import LinkIcon from 'assets/icons/link.svg';
+import { connect } from 'react-redux';
+import { removeItem as removeItemAction } from 'actions';
 
 const StyledWrapper = styled.div`
   min-height: 380px;
@@ -36,20 +38,20 @@ const InnerWrapper = styled.div`
 `;
 
 const DateInfo = styled(Paragraph)`
-  margin: 0 0 10px;
+  margin: 0 0 5px;
   font-weight: ${({ theme }) => theme.bold};
   font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
 const StyledHeading = styled(Heading)`
-  margin: 10px 0 0;
+  margin: 5px 0 0;
 `;
 
 const StyledAvatar = styled.img`
   width: 86px;
   height: 86px;
-  border-radius: 50px;
   border: 5px solid ${({ theme }) => theme.twitters};
+  border-radius: 50px;
   position: absolute;
   right: 25px;
   top: 25px;
@@ -57,15 +59,15 @@ const StyledAvatar = styled.img`
 
 const StyledLinkButton = styled.a`
   display: block;
-  height: 47px;
   width: 47px;
+  height: 47px;
   border-radius: 50px;
   background: white url(${LinkIcon}) no-repeat;
   background-size: 60%;
   background-position: 50%;
   position: absolute;
   right: 25px;
-  top: 50px;
+  top: 50%;
   transform: translateY(-50%);
 `;
 
@@ -78,16 +80,24 @@ class Card extends Component {
   handleCardClick = () => this.setState({ redirect: true });
 
   render() {
-    const { id, cardType, title, created, twitterName, articleUrl, content } = this.props;
+    const {
+      id,
+      cardType,
+      title,
+      created,
+      twitterName,
+      articleUrl,
+      content,
+      removeItem,
+    } = this.props;
     const { redirect } = this.state;
 
     if (redirect) {
       return <Redirect to={`${cardType}/details/${id}`} />;
     }
-
     return (
-      <StyledWrapper onClick={this.handleCardClick}>
-        <InnerWrapper activeColor={cardType}>
+      <StyledWrapper>
+        <InnerWrapper onClick={this.handleCardClick} activeColor={cardType}>
           <StyledHeading>{title}</StyledHeading>
           <DateInfo>{created}</DateInfo>
           {cardType === 'twitters' && (
@@ -97,7 +107,9 @@ class Card extends Component {
         </InnerWrapper>
         <InnerWrapper flex>
           <Paragraph>{content}</Paragraph>
-          <Button secondary>Remove</Button>
+          <Button onClick={() => removeItem(cardType, id)} secondary>
+            REMOVE
+          </Button>
         </InnerWrapper>
       </StyledWrapper>
     );
@@ -112,6 +124,7 @@ Card.propTypes = {
   twitterName: PropTypes.string,
   articleUrl: PropTypes.string,
   content: PropTypes.string.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
@@ -120,4 +133,8 @@ Card.defaultProps = {
   articleUrl: null,
 };
 
-export default Card;
+const mapDispatchToProps = dispatch => ({
+  removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(Card);
