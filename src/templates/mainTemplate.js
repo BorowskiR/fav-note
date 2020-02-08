@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'theme/GlobalStyle';
+import PageContext from 'context';
 import { theme } from 'theme/mainTheme';
 
 class MainTemplate extends Component {
+  // eslint-disable-next-line react/state-in-constructor
   state = {
     pageType: 'notes',
   };
@@ -28,18 +30,21 @@ class MainTemplate extends Component {
 
     if (prevState.pageType !== currentPage) {
       this.setState({ pageType: currentPage });
-      console.log(this.state);
+      // console.log(this.state);
     }
   };
 
   render() {
     const { children } = this.props;
+    const { pageType } = this.state;
 
     return (
-      <div>
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </div>
+      <PageContext.Provider value={pageType}>
+        <div>
+          <GlobalStyle />
+          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </div>
+      </PageContext.Provider>
     );
   }
 }
