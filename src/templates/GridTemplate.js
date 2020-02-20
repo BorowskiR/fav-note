@@ -5,14 +5,24 @@ import UserPageTemplate from 'templates/UserPageTemplate';
 import Input from 'components/atoms/Input/Input';
 import Heading from 'components/atoms/Heading/Heading';
 import Paragraph from 'components/atoms/Paragraph/Paragraph';
-import withContext from 'hoc/withContext';
 import NewItemBar from 'components/organisms/NewIemBar/NewItemBar';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import plusIcon from 'assets/icons/plus.svg';
+import withContext from 'hoc/withContext';
+import { connect } from 'react-redux';
 
 const StyledWrapper = styled.div`
   position: relative;
   padding: 25px 150px 25px 70px;
+`;
+
+const StyledLoadingIndicator = styled(Heading)`
+  font-size: 3em;
+  color: white;
+  position: fixed;
+  top: 40vh;
+  left: 40%;
+  z-index: 10001;
 `;
 
 const StyledGrid = styled.div`
@@ -71,12 +81,13 @@ class GridTemplate extends Component {
   };
 
   render() {
-    const { children, pageContext } = this.props;
+    const { children, pageContext, isLoading } = this.props;
     const { isNewItemBarVisible } = this.state;
 
     return (
       <UserPageTemplate>
         <StyledWrapper>
+          {isLoading && <StyledLoadingIndicator>Loading</StyledLoadingIndicator>}
           <StyledPageHeader>
             <Input search placeholder="Search" />
             <StyledHeading big as="h1">
@@ -106,4 +117,6 @@ GridTemplate.defaultProps = {
   pageContext: 'notes',
 };
 
-export default withContext(GridTemplate);
+const mapStateToProps = ({ isLoading }) => ({ isLoading });
+
+export default connect(mapStateToProps)(withContext(GridTemplate));
