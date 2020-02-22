@@ -1,4 +1,10 @@
-import { REMOVE_ITEM_SUCCESS, ADD_ITEM, AUTH_SUCCESS, FETCH_SUCCESS, FETCH_REQUEST } from 'actions';
+import {
+  REMOVE_ITEM_SUCCESS,
+  ADD_ITEM_SUCCESS,
+  AUTH_SUCCESS,
+  FETCH_SUCCESS,
+  FETCH_REQUEST,
+} from 'actions';
 
 const initialState = {
   userID: '5e4bd7160b35f75928acb6bc',
@@ -24,10 +30,10 @@ const rootReducer = (state = initialState, action) => {
         // eslint-disable-next-line no-underscore-dangle
         userID: action.payload.data._id,
       };
-    case ADD_ITEM:
+    case ADD_ITEM_SUCCESS:
       return {
         ...state,
-        [action.payload.itemType]: [...state[action.payload.itemType], action.payload.item],
+        [action.payload.itemType]: [...state[action.payload.itemType], action.payload.data],
       };
     case REMOVE_ITEM_SUCCESS:
       return {
