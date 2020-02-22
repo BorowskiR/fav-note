@@ -1,11 +1,11 @@
 export const routes = {
   home: '/',
   notes: '/notes',
-  note: '/notes/:id',
+  note: '/notes/details/:id',
   articles: '/articles',
-  article: '/articles/:id',
+  article: '/articles/details/:id',
   twitters: '/twitters',
-  twitter: '/twitters/:id',
+  twitter: '/twitters/details/:id',
   login: '/login',
   register: '/register',
 };

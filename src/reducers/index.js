@@ -33,7 +33,8 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         [action.payload.itemType]: [
-          ...state[action.payload.itemType].filter(item => item.id !== action.payload.id),
+          // eslint-disable-next-line no-underscore-dangle
+          ...state[action.payload.itemType].filter(item => item._id !== action.payload.id),
         ],
       };
     default:
